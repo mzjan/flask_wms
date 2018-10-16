@@ -19,11 +19,7 @@ ENV APACHE_LOG_DIR /var/log/apache2
 ENV LANG C
 
 RUN a2enmod wsgi
-RUN a2enmod ssl
-RUN mkdir /etc/apache2/ssl
 
-COPY apache_wsgi/apache.crt /etc/apache2/ssl/apache.crt
-COPY apache_wsgi/apache.key /etc/apache2/ssl/.
 COPY apache_wsgi/flask_wsgi.conf /etc/apache2/sites-available/flask_wsgi.conf
 COPY flask/wms_service.py /var/www/mydomain/wms_service.py
 COPY flask/wms_app.wsgi /var/www/mydomain/.
@@ -31,6 +27,6 @@ COPY flask/wms_app.wsgi /var/www/mydomain/.
 RUN a2ensite flask_wsgi.conf
 RUN service apache2 restart
 
-EXPOSE 443
+EXPOSE 80
 
 CMD ["apache2", "-D", "FOREGROUND"]
